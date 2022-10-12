@@ -31,7 +31,11 @@ func CreateOrder(ctx *gin.Context) {
 
 	var Items models.Items
 
-	if len(orders.Items) > 0 {
+	if len(orders.Items) < 1 {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+			"message": "item order tidak ada",
+		})
+	} else {
 		for _, item := range orders.Items {
 			Items = models.Items{
 				Item_code:   item.Item_code,
